@@ -19,7 +19,7 @@ interface IPerson {
     age: number
 }
 
-let vi: Iperson = {name: '', age: 1}
+let vi: IPerson = {name: '', age: 1}
 type IPartial = Partial<IPerson>
 let vi2: IPartial = {name: 'vi'}
 type IOmit = Omit<IPerson, 'name'>
