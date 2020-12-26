@@ -1,18 +1,21 @@
 <template>
   <div>
       <!-- <ref-use /> -->
-      <teleport-emits />
+      <!-- <teleport-emits /> -->
+      <suspenseUse />
   </div>
 </template>
 
 <script lang="ts">
 // import refUse from './ref.vue'
-import teleportEmits from './teleport-emits.vue'
+// import teleportEmits from './teleport-emits.vue'
+import suspenseUse from './suspense.vue'
 export default {
     name: 'Base',
     components: {
         // refUse,
-        teleportEmits    
+        // teleportEmits,
+        suspenseUse    
     }
 }
 </script>
