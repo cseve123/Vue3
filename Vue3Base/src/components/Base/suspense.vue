@@ -10,18 +10,29 @@
           </template>
           <template #fallback>loading....</template>
       </Suspense>
+      <p>报错{{error}}</p>
   </div>
 </template>
 
 <script lang="ts">
 import com1 from './suspense-1.vue'
 import com2 from './suspense-2.vue'
-import { defineComponent } from "vue";
+import { defineComponent, onErrorCaptured,ref } from "vue";
 
 export default defineComponent({
     components: {
         com1,
         com2
+    },
+    setup() {
+        const error = ref(null)
+        onErrorCaptured((e: any) => {
+            error.value = e
+            return true
+        })
+        return {
+            error
+        }
     }
 })
 </script>
