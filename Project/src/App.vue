@@ -6,13 +6,23 @@
     <form>
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">邮箱地址</label>
-        <ValidateInput :rules="emailRules" v-model="emailval" />
+        <ValidateInput
+          :rules="emailRules"
+          v-model="emailval"
+          type="text"
+          placeholder="请输入邮箱"
+          id="exampleInputEmail1" />
         {{emailval}}
       </div>
-      <!-- <div class="mb-3">
+      <div class="mb-3">
         <label for="exampleInputPassword1" class="form-label">密码</label>
-        <input type="password" class="form-control" id="exampleInputPassword1">
-      </div> -->
+        <ValidateInput
+          :rules="emailRules"
+          v-model="emailval"
+          type="password"
+          placeholder="请输入密码"
+          id="exampleInputPassword1" />
+      </div>
     </form>
   </div>
 </template>
