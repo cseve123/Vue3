@@ -3,7 +3,7 @@
     <GlobalHeader :user="user" />
     <ColumnList :list="list" />
     <!-- Form -->
-    <form>
+    <validate-form @form-submit="onFormSubmit">
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">邮箱地址</label>
         <ValidateInput
@@ -23,7 +23,12 @@
           placeholder="请输入密码"
           id="exampleInputPassword1" />
       </div>
-    </form>
+      <!-- v-slot:name 可以写成#name -->
+      <template v-slot:submit>
+        <span class="btn btn-danger">Submit</span>
+      </template>
+    </validate-form>
+
   </div>
 </template>
 
@@ -33,6 +38,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import ColumnList, { ColumnProps } from './components/ColumnList.vue'
 import GlobalHeader, { UserProps } from './components/GlobalHeader.vue'
 import ValidateInput, { RulesProp } from './components/ValidateInput.vue'
+import ValidateForm from './components/ValidateForm.vue'
 const testData: ColumnProps[] = [
   {
     id: 1,
@@ -61,7 +67,8 @@ export default defineComponent({
   components: {
     ColumnList,
     GlobalHeader,
-    ValidateInput
+    ValidateInput,
+    ValidateForm
   },
   setup () {
     const emailval = ref('')
@@ -83,13 +90,17 @@ export default defineComponent({
         emailRef.message = ''
       }
     }
+    const onFormSubmit = (result: boolean) => {
+      console.log('form', result)
+    }
     return {
       list: testData,
       user: userData,
       emailRef,
       validateEmail,
       emailRules,
-      emailval
+      emailval,
+      onFormSubmit
     }
   }
 })
