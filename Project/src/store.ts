@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import {ColumnProps, PostProps, testData, testPosts} from './testData'
+import { ColumnProps, PostProps, testData, testPosts } from './testData'
 interface UserProps {
   isLogin: boolean;
   name?: string;
@@ -8,13 +8,13 @@ interface UserProps {
 export interface GlobalDataProps {
   columns: ColumnProps[];
   posts: PostProps[];
-  user: UserProps
+  user: UserProps;
 }
 const store = createStore<GlobalDataProps>({
   state: {
     columns: testData,
     posts: testPosts,
-    user: {isLogin: false}
+    user: { isLogin: false }
   }
 })
 export default store
