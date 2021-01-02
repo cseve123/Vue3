@@ -31,6 +31,8 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
+import { GlobalDataProps } from '../store'
 import ValidateForm from '../components/ValidateForm.vue'
 import ValidateInput, { RulesProp } from '../components/ValidateInput.vue'
 const emailRules: RulesProp = [
@@ -44,6 +46,7 @@ export default defineComponent({
     ValidateForm
   },
   setup () {
+    const store = useStore<GlobalDataProps>()
     const router = useRouter()
     const emailval = ref('')
     const emailRef = reactive({
@@ -70,6 +73,7 @@ export default defineComponent({
         router.push({
           path: '/'
         })
+        store.commit('login')
       }
     }
     return {

@@ -10,16 +10,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
+import { useStore } from 'vuex'
+import { GlobalDataProps } from './store'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import GlobalHeader, { UserProps } from './components/GlobalHeader.vue'
 import GlobalFooter from './components/GlobalFooter.vue'
 
-const userData: UserProps = {
-  isLogin: true,
-  id: 1,
-  name: 'kk'
-}
+// const userData: UserProps = {
+//   isLogin: true,
+//   id: 1,
+//   name: 'kk'
+// }
 
 export default defineComponent({
   name: 'App',
@@ -28,8 +30,10 @@ export default defineComponent({
     GlobalFooter
   },
   setup () {
+    const store = useStore<GlobalDataProps>()
+    const user = computed(() => store.state.user)
     return {
-      user: userData
+      user
     }
   }
 })
