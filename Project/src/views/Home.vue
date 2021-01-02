@@ -1,4 +1,5 @@
 <template>
+  <h2>{{biggerColumnLen}}</h2>
   <column-list :list="list"></column-list>
 </template>
 
@@ -6,8 +7,8 @@
 import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
 import { GlobalDataProps } from '../store'
-import ColumnList, { ColumnProps } from '../components/ColumnList.vue'
-import { useRoute } from 'vue-router'
+import ColumnList from '../components/ColumnList.vue'
+// import { useRoute } from 'vue-router'
 // const testData: ColumnProps[] = [
 //   {
 //     id: 1,
@@ -30,8 +31,10 @@ export default defineComponent({
   setup () {
     const store = useStore<GlobalDataProps>()
     const list = computed(() => store.state.columns)
+    const biggerColumnLen = computed(() => store.getters.biggerColumnLen)
     return {
-      list
+      list,
+      biggerColumnLen
     }
   }
 })
