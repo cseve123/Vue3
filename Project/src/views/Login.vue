@@ -14,8 +14,8 @@
     <div class="mb-3">
       <label for="exampleInputPassword1" class="form-label">密码</label>
       <ValidateInput
-        :rules="emailRules"
-        v-model="emailval"
+        :rules="passwordRules"
+        v-model="passwordval"
         type="password"
         placeholder="请输入密码"
         id="exampleInputPassword1"
@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { GlobalDataProps } from '../store'
@@ -38,6 +38,9 @@ import ValidateInput, { RulesProp } from '../components/ValidateInput.vue'
 const emailRules: RulesProp = [
   { type: 'required', message: '电子邮箱地址不能为空' },
   { type: 'email', message: '请输入正确的电子邮箱格式' }
+]
+const passwordRules: RulesProp = [
+  { type: 'required', message: '请输入密码' }
 ]
 export default defineComponent({
   name: 'Login',
@@ -49,38 +52,46 @@ export default defineComponent({
     const store = useStore<GlobalDataProps>()
     const router = useRouter()
     const emailval = ref('')
-    const emailRef = reactive({
-      val: '',
-      error: false,
-      message: ''
-    })
-    const emailReg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/ig
-    const validateEmail = () => {
-      if (emailRef.val.trim() === '') {
-        emailRef.error = true
-        emailRef.message = 'can not be empty'
-      } else if (!emailReg.test(emailRef.val)) {
-        emailRef.error = true
-        emailRef.message = 'should be valid email'
-      } else {
-        emailRef.error = false
-        emailRef.message = ''
-      }
-    }
+    const passwordval = ref('')
+    // const emailRef = reactive({
+    //   val: '',
+    //   error: false,
+    //   message: ''
+    // })
+    // const emailReg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/ig
+    // const validateEmail = () => {
+    //   if (emailRef.val.trim() === '') {
+    //     emailRef.error = true
+    //     emailRef.message = 'can not be empty'
+    //   } else if (!emailReg.test(emailRef.val)) {
+    //     emailRef.error = true
+    //     emailRef.message = 'should be valid email'
+    //   } else {
+    //     emailRef.error = false
+    //     emailRef.message = ''
+    //   }
+    // }
     const onFormSubmit = (result: boolean) => {
-      console.log('form', result)
       if (result) {
-        router.push({
-          path: '/'
+        // TODO: dispatch() and tips and href
+
+        // store.commit('login')
+        store.dispatch('loginAndFetch', {
+          email: emailval.value,
+          password: passwordval.value
+        }).then(() => {
+          console.log('success')
+          // router.push({
+          //   path: '/'
+          // })
         })
-        store.commit('login')
       }
     }
     return {
-      emailRef,
-      validateEmail,
       emailRules,
+      passwordRules,
       emailval,
+      passwordval,
       onFormSubmit
     }
   }
