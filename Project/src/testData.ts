@@ -1,7 +1,12 @@
+interface ImageProps {
+  _id?: string;
+  url?: string;
+  createAt?: string;
+}
 export interface ColumnProps {
-  id: number;
+  _id: number;
   title: string;
-  avatar?: string;
+  avatar?: ImageProps;
   description: string;
 }
 export interface PostProps {
