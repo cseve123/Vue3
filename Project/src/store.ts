@@ -27,28 +27,34 @@ export interface PostProps {
   createdAt: string;
   column: string;
 }
-
+export interface GlobalErrorProps {
+  status: boolean;
+  message?: string;
+}
 export interface GlobalDataProps {
-  toKen: string;
+  error: GlobalErrorProps;
+  token: string;
   loading: boolean;
   columns: ColumnProps[];
   posts: PostProps[];
   user: UserProps;
 }
-const getAndCommit = async (url: string, mutationsName: string, comit: Commit) => {
+const getAndCommit = async (url: string, mutationsName: string, commit: Commit) => {
   // comit('setLoading', true)
   const { data } = await axios.get(url)
-  comit(mutationsName, data)
+  commit(mutationsName, data)
   // comit('setLoading', false)
+  return data
 }
-const postAndCommit = async (url: string, mutationsName: string, comit: Commit, playload: any) => {
+const postAndCommit = async (url: string, mutationsName: string, commit: Commit, playload: any) => {
   const { data } = await axios.post(url, playload)
-  comit(mutationsName, data)
+  commit(mutationsName, data)
   return data
 }
 const store: any = createStore<GlobalDataProps>({
   state: {
-    toKen: '',
+    error: { status: false },
+    token: localStorage.getItem('token') || '',
     loading: false,
     columns: [],
     posts: [],
@@ -74,12 +80,16 @@ const store: any = createStore<GlobalDataProps>({
       state.loading = status
     },
     login (state, rawData) {
-      const { toKen } = rawData.data
-      state.toKen = toKen
-      axios.defaults.headers.common.Authorization = `Bearer ${toKen}`
+      const { token } = rawData.data
+      state.token = token
+      localStorage.setItem('token', token)
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`
     },
     fetchCurrentUser (state, rawData) {
       state.user = { isLogin: true, ...rawData.data }
+    },
+    setError (state, e: GlobalErrorProps) {
+      state.error = e
     }
   },
   actions: { // 异步
@@ -107,10 +117,10 @@ const store: any = createStore<GlobalDataProps>({
       })
     },
     login ({ commit }, playload) {
-      postAndCommit('/user/login', 'login', commit, playload)
+      return postAndCommit('/user/login', 'login', commit, playload)
     },
     fetchCurrentUser ({ commit }) {
-      getAndCommit('/user/current', 'fetchCurrentUser', commit)
+      return getAndCommit('/user/current', 'fetchCurrentUser', commit)
     },
     loginAndFetch ({ dispatch }, loginData) {
       return dispatch('login', loginData).then(() => {

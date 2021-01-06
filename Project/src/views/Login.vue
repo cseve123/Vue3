@@ -35,6 +35,7 @@ import { useStore } from 'vuex'
 import { GlobalDataProps } from '../store'
 import ValidateForm from '../components/ValidateForm.vue'
 import ValidateInput, { RulesProp } from '../components/ValidateInput.vue'
+import createMessage from '../components/createMessage'
 const emailRules: RulesProp = [
   { type: 'required', message: '电子邮箱地址不能为空' },
   { type: 'email', message: '请输入正确的电子邮箱格式' }
@@ -73,17 +74,18 @@ export default defineComponent({
     // }
     const onFormSubmit = (result: boolean) => {
       if (result) {
-        // TODO: dispatch() and tips and href
-
-        // store.commit('login')
         store.dispatch('loginAndFetch', {
           email: emailval.value,
           password: passwordval.value
         }).then(() => {
-          console.log('success')
-          // router.push({
-          //   path: '/'
-          // })
+          createMessage('登录成功！2秒跳转到首页', 'success')
+          setTimeout(() => {
+            router.push({
+              path: '/'
+            })
+          }, 2000)
+        }).catch(e => {
+          console.log(e)
         })
       }
     }

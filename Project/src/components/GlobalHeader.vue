@@ -6,7 +6,7 @@
         <a href="/login" class="btn btn-outline-light my-2">登录</a>
       </li>
       <li class="list-inline-item">
-        <a href="#" class="btn btn-outline-light my-2">注册</a>
+        <a href="/signup" class="btn btn-outline-light my-2">注册</a>
       </li>
     </ul>
     <ul v-else class="list-inline mb-0">

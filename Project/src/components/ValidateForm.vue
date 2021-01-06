@@ -28,7 +28,7 @@ export default defineComponent({
     const callBack = (func: ValidateFunc) => {
       funcArr.push(func)
     }
-    // TODO: mitt编译不过去
+    // TODO: mitt编译不过去，导致获取不到全局
     // emitter.on('form-item-created', callBack)
     onUnmounted(() => {
       // emitter.off('form-item-created', callBack)
