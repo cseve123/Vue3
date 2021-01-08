@@ -103,6 +103,7 @@ export default defineComponent({
       }
     }
     const uploadCheck = (file: File) => {
+      // TODO 做验证
       console.log(file)
       return true
     }
